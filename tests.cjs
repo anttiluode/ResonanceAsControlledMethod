@@ -92,3 +92,8 @@ for(const k of ['adaptive','fixed','cycle','random']){
 }
 console.log('Paired seeded benchmark: PASS.');
 console.log(JSON.stringify({noise_sigma:ref*.4,shots:2,trials:32,methods:one.methods},null,2));
+
+const stress=C.benchmark(library,ref*1.6,128,2,20261027);
+console.log('CHALLENGING NOISE CONTROL: 160% of single-wall RMS, 128 paired trials, two pings');
+console.log(JSON.stringify(stress.methods,null,2));
+
