@@ -88,7 +88,7 @@ fieldset{margin:0;padding:0;border:0}
   <label for="pings">Excitation budget per calibration state</label>
   <select id="pings"><option value="all">6 pings · 2 frequencies × 3 bearings</option><option value="low">3 pings · low frequency only</option><option value="high">3 pings · high frequency only</option><option value="direct">2 pings · straight ahead</option><option value="one-low">1 ping · low / straight</option><option value="one-high">1 ping · high / straight</option></select>
   <label for="noise">Noise / common single-wall RMS <span id="noiseDisplay" style="color:var(--gold)">4%</span></label>
-  <input type="range" min="0" max=".35" step=".01" value=".04" id="noise">
+  <input type="range" min="0" max="10" step=".1" value="2" id="noise"><div class="small">Stress test: 200% default. At the original 4% level both designs already decode everything, so performance saturates.</div>
   <div class="row" style="margin-top:12px"><button class="primary" id="run" disabled>Score both arms</button><button id="resetView" disabled>Default controls</button></div>
   <div class="rule"></div>
   <div id="status" class="status">Building 3,072 source-to-receiver wave simulations…<div class="bar"><div id="progress"></div></div></div>
