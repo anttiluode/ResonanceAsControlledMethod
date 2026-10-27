@@ -23,6 +23,19 @@ for(const frequency of [0,1]){
   console.log('FREQUENCY CONTROL',D.frequencies[frequency],JSON.stringify({budget:r.calibrationStates,
     heldout:r.heldout,parabolic:r.methods.parabolic,fixed:r.methods.fixed,paired:r.paired}));
 }
+
+// Stress tests are exploratory controls added after the 4% ceiling became clear.
+// We retain all records, physical packet shapes and calibration restrictions.
+for(const noise of [.5,2,5,10]){
+  const r=D.compare(truth,{window:1,order:2,trials:3,noise,seed:20261027});
+  console.log('NOISE STRESS',noise,JSON.stringify({budget:r.calibrationStates,
+    heldout:r.heldout,parabolic:r.methods.parabolic,fixed:r.methods.fixed,paired:r.paired}));
+}
+for(const [label,probes] of [['one-low',[1]],['one-high',[4]],['two-direct',[1,4]]]){
+  const r=D.compare(truth,{window:1,order:2,probes,trials:3,noise:2,seed:20261027});
+  console.log('SHOT STRESS',label,JSON.stringify({budget:r.calibrationStates,
+    heldout:r.heldout,parabolic:r.methods.parabolic,fixed:r.methods.fixed,paired:r.paired}));
+}
 console.log('COMPLETE RECEIPT',JSON.stringify({frozen:{
   rho:D.RHO,k0:D.K0,angular_samples:D.ANGLES,packet_width:D.WIDTH,
   two_k:D.frequencies,three_bearings:D.bearings,launch_energy:1,source:'first focus',
