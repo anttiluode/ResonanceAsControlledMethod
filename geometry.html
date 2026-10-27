@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Causal calibration: learn unseen wave-cavity memories from selected wall interactions without fitting to the held-out echoes.">
+<meta name="theme-color" content="#07101c">
+<title>The Causal Calibration Challenge · Perception Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#07101c;--panel:#102235;--line:#2d485d;--txt:#e4f3f9;--muted:#a0b7c7;--cyan:#7cd6e9;--gold:#f0be80;--green:#96d9b8;--red:#f5a1a1}
+*{box-sizing:border-box}
+body{background:radial-gradient(ellipse at 28% 5%,#214254,transparent 42%),#07101c;color:var(--txt);font-family:system-ui,-apple-system,'Segoe UI',sans-serif;line-height:1.5;margin:0}
+a{color:var(--cyan)}h1,h2,h3,p{margin-top:0}
+h1{font-size:clamp(30px,4.4vw,56px);line-height:1.06;letter-spacing:-.055em;max-width:870px}
+h2{font-size:21px;letter-spacing:-.018em;margin-bottom:10px}
+h3{font-size:15px;color:#e7f0f4}
+button,input,select{font:inherit}
+button{background:#223b51;color:var(--txt);border:1px solid #526b7d;border-radius:10px;padding:11px 17px;cursor:pointer;font-weight:680}
+button:disabled{opacity:.5;cursor:not-allowed}
+button:not(:disabled):hover{background:#33546b}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+button.primary{background:var(--gold);border-color:var(--gold);color:#171b21}
+input[type=range]{accent-color:var(--cyan);width:100%}
+select{border:1px solid #46627a;background:#193247;color:var(--txt);border-radius:7px;padding:9px 11px}
+.eyebrow{color:var(--cyan);font-size:12px;font-weight:770;letter-spacing:.15em;text-transform:uppercase}
+.muted{color:var(--muted);font-size:13px}
+.wrap{max-width:1380px;margin:auto;padding:0 21px}
+nav{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:25px 0;border-bottom:1px solid #294155;font-size:13px}
+nav .brand{letter-spacing:.1em;text-transform:uppercase;font-weight:730;color:var(--cyan)}
+header{padding:46px 0 20px}
+header p{font-size:17px;color:#bad0df;max-width:840px}
+.panel{background:linear-gradient(140deg,#152e41ed,#0c1d2fed);border:1px solid var(--line);border-radius:14px;padding:20px;min-width:0;box-shadow:0 10px 30px #0002}
+.top{display:grid;grid-template-columns:300px minmax(420px,1fr);gap:15px}
+.controls{display:flex;flex-direction:column;gap:12px}
+fieldset{border:0;padding:0;margin:0}
+legend{font-weight:650;font-size:12px;color:#a9c4d3;margin-bottom:7px}
+.small{font-size:12px;color:#91aebe}
+input,button,select{max-width:100%}
+.field{margin:14px 0 2px}
+#ellipse{width:100%;max-height:340px;background:#081827;border:1px solid #30485e;border-radius:10px;display:block}
+#horizon{width:100%;height:160px;background:#081827;border:1px solid #30485e;border-radius:10px;display:block}
+.status{background:#1b3445;padding:12px;color:#bed6e2;border-radius:9px;font-size:12px;border:1px solid #3e5a71}
+.bar{height:8px;background:#2a4657;border-radius:20px;overflow:hidden;margin-top:9px}
+.bar>div{height:100%;width:0%;background:var(--cyan);transition:width .1s}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin:16px 0}
+.stat{font-size:28px;font-weight:770;letter-spacing:-.035em}
+.statlabel{font-size:12px;color:var(--muted)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
+.method{border-radius:12px;border:1px solid #2e4e63;padding:17px;background:#0d2030}
+.method strong{font-size:29px;display:block}
+.method.golden{border-color:#ad8759}
+.methods-head{display:flex;justify-content:space-between;gap:12px;align-items:center}
+.tablewrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px;font-variant-numeric:tabular-nums}
+td,th{text-align:left;padding:11px 8px;border-bottom:1px solid #305064}
+th{color:#9cb6c6;font-weight:650}
+#trace{width:100%;height:260px;background:#071726;border:1px solid #294657;border-radius:10px}
+.legend{display:flex;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin:10px 0}
+.legend>span::before{content:'';display:inline-block;background:var(--cyan);width:10px;height:10px;border-radius:3px;margin-right:7px}
+.legend span.gold::before{background:var(--gold)}.legend span.green::before{background:var(--green)}
+#outcome{font-size:15px;font-weight:680;color:var(--gold)}
+.highlight{color:var(--gold)}
+.foot{max-width:990px;margin:20px auto 60px}
+.foot p{font-size:14px;color:#a4bdcc}
+.blob{font:12px ui-monospace,'Cascadia Code',monospace;color:#9dccd9}
+button.choices{font-size:12px;margin-right:6px;margin-bottom:7px}
+.pill{border:1px solid #547286;padding:5px 9px;color:#accada;font-size:12px;border-radius:20px}
+@media(max-width:1020px){.top{grid-template-columns:1fr}.cards{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:700px){.wrap{padding:0 12px}.pair,.cards{grid-template-columns:1fr}.panel{padding:15px}nav{flex-direction:column;align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><span class="brand">Perception Lab · physical memory / 02</span><span><a href="./">← Four-bit live reader</a> · <a href="https://github.com/anttiluode/ResonanceAsControlledMethod">Source / tests</a></span></nav>
+<header>
+  <div class="eyebrow">The next step / a falsifiable scaling experiment</div>
+  <h1>Can geometry tell us <span style="color:var(--gold)">what not to calibrate?</span></h1>
+  <p>Eight writable walls make 256 possible records. Instead of measuring every record to train the listener, we select a limited, causally plausible set of wall combinations and reconstruct the others from their interactions. A second strategy uses the same number of calibration states but chooses by interaction order.</p>
+</header>
+<div class="top">
+ <section class="panel controls">
+  <div class="eyebrow">01 · constraints</div><h2>Choose the experiment</h2>
+  <fieldset><legend for="budget">Maximum calibrated wall configurations</legend>
+    <div style="display:flex;justify-content:space-between;gap:10px"><span id="budgetText" style="color:var(--gold);font-size:22px;font-weight:750">65</span><span class="small">of 256</span></div>
+    <input id="budget" type="range" min="9" max="163" value="65" step="1">
+    <div class="small">Each configuration must be probed from every selected source. Both models use a causally admissible, downward-closed training set.</div>
+  </fieldset>
+  <fieldset><legend for="window">Observation deadline</legend><select id="window"><option value="0">Early · samples 145–244</option><option selected value="1">Middle · samples 245–344</option><option value="2">Late · samples 345–444</option></select></fieldset>
+  <fieldset><legend for="sources">Physical interrogation cost</legend><select id="sources"><option value="1">1 source × 100 samples</option><option selected value="3">3 sources × 100 samples</option></select></fieldset>
+  <fieldset><legend for="noise">Detector noise / one-patch RMS</legend><div id="noiseText" style="font-weight:700">4%</div><input id="noise" type="range" min="0" max=".24" value=".04" step=".01"></fieldset>
+  <button id="compare" class="primary" disabled>Run both held-out decoders</button>
+  <div class="status" id="phase">Computing geometry and independent truth traces…<div class="bar"><div id="progress"></div></div></div>
+  <div class="small"><strong>Leakage prevention:</strong> each decoder is fitted with a Map containing <em>only</em> its calibrated wall states. All 256 simulated states are held separately for scoring and trace inspection. No held-out configuration is consulted when fitting.</div>
+ </section>
+ <section class="panel">
+  <div class="methods-head"><div><div class="eyebrow">02 · causal reach</div><h2>Which wall interactions can arrive?</h2></div><span class="pill">8 material bits</span></div>
+  <canvas id="ellipse" width="820" height="400" aria-label="Elliptical memory cavity with eight material sectors and three excitation points"></canvas>
+  <canvas id="horizon" width="820" height="180" aria-label="Earliest geometry estimated travel time by material interaction order"></canvas>
+  <p class="small">The path estimates search shortest tours among six representative boundary cells per sector, from a source to all required patches and then the fixed receiver. A <strong>40-step safety margin</strong> comes from earlier K=8 observations; it is not a rigorous support bound. The physical wave simulator is independent of this tour calculation.</p>
+ </section>
+</div>
+<section class="cards" aria-label="Resource measurements">
+ <div class="panel"><div class="eyebrow">Actual calibration</div><div id="calCount" class="stat">—</div><div class="statlabel">states per source (out of 256)</div></div>
+ <div class="panel"><div class="eyebrow">Common unseen test set</div><div id="heldCount" class="stat">—</div><div class="statlabel">records calibrated by neither model</div></div>
+ <div class="panel"><div class="eyebrow">Actual training pings</div><div id="physicalCost" class="stat">—</div><div class="statlabel">calibration states × physical sources</div></div>
+</section>
+<section class="panel">
+ <div class="eyebrow">03 · matched budget</div>
+ <div class="methods-head"><h2>Does geometric selection win?</h2><span id="outcome">No experiment scored yet.</span></div>
+ <div class="pair">
+  <div class="method"><span class="eyebrow">Causally ranked subsets</span><strong id="geoAccuracy">—</strong><div class="statlabel">held-out exact recovery at selected noise</div><div id="geoDetails" class="small"></div></div>
+  <div class="method golden"><span class="eyebrow">Degree-first control</span><strong id="degAccuracy">—</strong><div class="statlabel">held-out exact recovery at selected noise</div><div id="degDetails" class="small"></div></div>
+ </div>
+ <div class="tablewrap"><table><thead><tr><th>Calibration interaction order</th><th>Geometry-first</th><th>Degree-first</th></tr></thead><tbody id="orders"><tr><td colspan="3">Waiting for the simulation.</td></tr></tbody></table></div>
+ <p class="small">Three independent Gaussian-noise trials per unseen record. For comparisons at zero noise, the noiseless exact counts are also shown. The control uses interaction order first, then geometric arrival within each order. All calibration states are restricted by the same causal eligibility cutoff.</p>
+</section>
+<section class="panel" style="margin-top:15px">
+  <div class="eyebrow">04 · what failed and why</div>
+  <h2>Inspect a record the reader never calibrated</h2>
+  <div class="methods-head" style="flex-wrap:wrap"><label for="testWord" class="small">Select an unseen memory word (0–255): <input type="number" id="testWord" min="0" max="255" value="255" style="width:92px;background:#173045;color:#fff;border:1px solid #52718b;padding:7px;border-radius:7px"></label><button id="inspect" disabled>Inspect held-out echo</button></div>
+  <p id="inspection" class="small">The actual waveform is used only here, to evaluate the two predictions made from their restricted training sets.</p>
+  <canvas id="trace" width="1000" height="275" aria-label="True receiver echo and two model predictions on a heldout record"></canvas>
+  <div class="legend"><span>True unseen receiver echo</span><span class="gold">Geometry model</span><span class="green">Degree-first model</span></div>
+  <p class="small">The plotted source is the first chosen physical source, with 100 samples from the selected window. Decoding uses all the sources selected above.</p>
+</section>
+<section class="panel foot">
+ <div class="eyebrow">Research ledger · important limits</div>
+ <h2>What would constitute progress?</h2>
+ <p><strong>Success:</strong> geometry picks a smaller calibrating family with equal or better held-out accuracy, or identifies a physically grounded rule predicting which interactions must be modeled before hearing them. <strong>Failure:</strong> geometry loses to degree-first at equal calibration and acquisition budget. Both outcomes teach us about this cavity's readable memory.</p>
+ <p>There is no claim of novel wave physics, learning wall plasticity, polynomial-time general memory, or transfer of OpenAI's 2026 Euclidean local-smoothing theorem. Calibration is exhaustive over the subset of records selected, and the full 256-state oracle is an expensive diagnostic used to evaluate failure honestly. The page reports a <em>single deterministic noise seed</em>, not a general statistical superiority result.</p>
+ <p>Other necessary experiments: lower-memory geometry selection as K grows, independent geometries and grid sizes, instrument-energy matching, uncertainty calibration, and a local physical write rule. The previous <a href="./">four-bit live reader</a> remains available as a separate experiment.</p>
+</section>
+</div>
+<script src="./core.js"></script>
+<script src="./geometry-core.js"></script>
+<script src="./geometry-ui.js"></script>
+</body></html>
