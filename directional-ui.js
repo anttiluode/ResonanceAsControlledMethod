@@ -41,7 +41,7 @@ function updateControls(){
   drawAngular();
 }
 function resetControls(){
-  $('window').value='1';$('order').value='2';$('pings').value='all';
+  $('window').value='1';$('order').value='2';$('pings').value='one-low';
   $('noise').value='2';$('inspectWord').value='255';
   $('frequency').value='0';$('bearing').value='1';
   updateControls();drawPacket();
