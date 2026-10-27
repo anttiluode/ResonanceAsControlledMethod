@@ -6,6 +6,47 @@ Live static laboratory: **https://anttiluode.github.io/ResonanceAsControlledMeth
 
 This is a small experimental instrument building on [Kavitaatio](https://github.com/anttiluode/Kavitaatio), [WallMemoryLaw](https://github.com/anttiluode/WallMemoryLaw), the broader wave-cavity and neural-ping explorations, and the October 2026 wave-analysis discussion. It is *not* a demonstration of learning neurons, a new theorem, or a solver for OpenAI's local-smoothing result.
 
+## New: eight-bit causal calibration laboratory (October 27, 2026)
+
+**[Open the 8-bit experiment](https://anttiluode.github.io/ResonanceAsControlledMethod/geometry.html).** The [original four-bit live interrogation page](https://anttiluode.github.io/ResonanceAsControlledMethod/) remains intact.
+
+This follow-up directly tests the difficult next question from Kavitaatio and WallMemoryLaw: *can we select which material interactions to calibrate using geometry and an observation deadline, instead of measuring all \(2^K\) wall settings?*
+
+The new \`geometry-core.js\` implements **eight permanent wall bits / 256 possible records**, with the original 96×96 discretized wave physics. Its 256 × 3 complete forward runs are generated **only as an expensive independent scoring oracle**, not a set of available calibration examples. A candidate forward model receives a \`Map\` containing **only selected measured wall settings** and performs exact Boolean Möbius inversion on those; uncalibrated coefficients are zero. Every other word is predicted by the zeta transform.
+
+Two matched-budget calibrators:
+1. **Causal geometry-first:** choose a downward-closed set of interactions prioritized by estimated earliest shortest source → all changed patches → receiver tours.
+2. **Degree-first control:** choose the same number of downward-closed, causally eligible subsets ordered by interaction degree, breaking ties by earliest estimated tour.
+
+Both include the unwritten wall and all eight single-wall settings. A 40-step *heuristic* arrival margin and six sampled points per wall patch decide causal eligibility. Neither selection policy uses measured held-out waveforms to choose coefficients. Decoding uses one or three real excitation sites, one fixed receiver, exactly 100 samples per source and equal noise. The two models are scored on the **common set of words calibrated by neither strategy**, avoiding test-set mismatch.
+
+### Initial test receipt
+
+From CI \`node geometry-tests.cjs\`, seed 27, requested budget **65 states per source**, three source positions, Gaussian detector noise 4% of the single-wall reference, one noisy repetition per unseen memory:
+
+| Window | Actual calibration budget | Common holdout | Geometry noiseless exact | Degree-first noiseless exact | Geometry noisy accuracy | Degree-first noisy accuracy |
+|---|---:|---:|---:|---:|---:|---:|
+| Early 145–244 | 60 | 196 | 196/196 | 196/196 | 100% | 100% |
+| Middle 245–344 | 65 | 184 | 131/184 | 148/184 | 71.2% | 80.4% |
+| Late 345–444 | 65 | 184 | 2/184 | 1/184 | 1.1% | 0.5% |
+
+**Interpretation:** the geometrically chosen low-interaction model worked at the early deadline. At the middle deadline, geometry-first **lost** to the degree-first control. At the latest deadline, **both collapsed** because higher-order material scattering entered the observation window. The same physical memory became harder to predict from a truncated calibration as the listening history grew. Longer listening does not automatically improve predictive reconstruction.
+
+These are exploratory tests in one numerical model, **not a general theorem, statistically established superiority, or a physical device**. The early perfect score does not demonstrate a novel algorithm; it is consistent with finite-speed scattering suppressing higher-order interactions during short observation. At the extreme late-window floor, comparing exact percentages is uninformative. This test also holds the total number of acquired traces fixed by strategy, but does not charge the additional physical waiting time for late measurements.
+
+### Reproduce
+
+    node --check geometry-core.js
+    node --check geometry-worker.js
+    node --check geometry-ui.js
+    node geometry-tests.cjs
+
+The Node test verifies identity with the original cavity on overlapping wall words, causal tour monotonicity, downward-closed calibration sets, exact Möbius/zeta algebra, exact fit to calibrated cases, no use of held-out data in fitting, and independent decoding of 256-state simulated truth.
+
+**Next unresolved design challenge:** geometry can predict interaction *arrival*, but the magnitudes of interactions and their importance for distinguishing candidate memories depend on the actual wave physics. Find a physically measurable, calibration-cheap predictor of **which interactions have discriminative value** without consulting withheld wall records. Then test it on larger K and unfamiliar geometries.
+
+---
+
 ## The question
 
 An exciting echo is not evidence of a memory. A **stored memory** in this experiment is a persistent change of the wall; a **read** is the pressure trace measured after we ping the cavity. We test whether deliberate selection of **where and when to listen** helps identify the record through a fixed, minimal physical port.
