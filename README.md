@@ -6,6 +6,25 @@ Live static laboratory: **https://anttiluode.github.io/ResonanceAsControlledMeth
 
 This is a small experimental instrument building on [Kavitaatio](https://github.com/anttiluode/Kavitaatio), [WallMemoryLaw](https://github.com/anttiluode/WallMemoryLaw), the broader wave-cavity and neural-ping explorations, and the October 2026 wave-analysis discussion. It is *not* a demonstration of learning neurons, a new theorem, or a solver for OpenAI's local-smoothing result.
 
+## Independent validation update: source-tuned fixed-width control wins (27 October 2026)
+
+**[Open the independent cross-geometry validation](https://anttiluode.github.io/ResonanceAsControlledMethod/validation.html)** · [Frozen-before-testing protocol](CROSS_GEOMETRY_PROTOCOL.md) · [Unaltered primary results and limitations](INDEPENDENT_VALIDATION_FINDINGS.md) · [Machine-readable receipt](cross-geometry-results.json).
+
+This follow-up fixes an important weakness in the directional comparison below. A single-frequency fixed-width beam with q=k is mathematically **identical** to the parabolic beam at that frequency; wins over the arbitrary original fixed q=0.9 cannot establish an inherent frequency-scaling advantage.
+
+We froze two frequencies (0.65, 1.30), two equal-energy real incident pings, one signed receiver, 37 exact low-order wall calibration records, all 219 higher-weight wall words for held-out scoring, 100 receiver samples each and a shared detector noise rule. On the **original ellipse only**, five fixed-width q values were scored and q=0.45 was selected as the best candidate (510/657 correct vs 367/657 for the old arbitrary q=0.9). That q was locked *before evaluating two unfamiliar cavities*: a stadium and a 25° rotated ellipse.
+
+| Unseen geometry | Parabolic (657 noisy trials) | Tuned fixed width |
+|---|---:|---:|
+| Stadium | 336/657 = **51.1%** | **465/657 = 70.8%** |
+| Rotated ellipse | 228/657 = **34.7%** | **277/657 = 42.2%** |
+
+**The generalization claim failed in both new shapes.** The fixed-angle control wins when tuned fairly on the original geometry. This does not contradict the OpenAI free-Euclidean local-smoothing theorem, which is not a theorem about bounded damped inverse memory decoding.
+
+The q=0.45 choice is at the edge of the finite candidate grid; it is a coarse source-tuned baseline, not a proof of globally optimal source design. These are numerical experiments on two selected unseen geometries, not hardware tests or universal conclusions. We retain the earlier positive exploratory observations below as history but do not treat them as independently confirmed advantages.
+
+---
+
 ## New: the physical directional interrogation challenge (October 27, 2026)
 
 **[Open the parabolic-vs-fixed wave laboratory](https://anttiluode.github.io/ResonanceAsControlledMethod/directional.html)** · [Detailed numerical receipt, limitations and reproduction](DIRECTIONAL_FINDINGS.md).
