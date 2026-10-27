@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Interactive wave-cavity memory laboratory: write persistent boundary bits, interrogate their echoes, and compare probe policies honestly.">
+  <meta name="theme-color" content="#07101c">
+  <title>Resonance as a Controlled Method · Perception Lab</title>
+  <style>
+  :root{color-scheme:dark;--bg:#07101c;--panel:#0d1a29;--p2:#101f30;--edge:#2b4054;--ink:#ebf5f8;--muted:#91a8ba;--cyan:#66cfe1;--gold:#eebf81;--red:#f09082;--green:#9cd7b2;--font:system-ui,-apple-system,"Segoe UI",sans-serif}
+  *{box-sizing:border-box}
+  body{margin:0;color:var(--ink);font-family:var(--font);background:radial-gradient(ellipse at 30% -10%,#1b3e53 0,transparent 38%),radial-gradient(ellipse at 100% 18%,#292536 0,transparent 29%),var(--bg);line-height:1.45}
+  button,select,input{font:inherit}
+  button{cursor:pointer;color:var(--ink);background:#15293d;border:1px solid #3b5366;border-radius:9px;padding:10px 14px;font-weight:620;transition:.14s}
+  button:hover:not(:disabled){border-color:#79c9d7;background:#1c394d}
+  button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+  button:disabled{cursor:not-allowed;opacity:.45}
+  button.selected{background:#28536a;border-color:#65b9d1;color:white}
+  button.primary{background:#d6a36b;color:#09131e;border-color:#d6a36b}
+  button.primary:hover:not(:disabled){background:#f3c995;border-color:#f3c995}
+  button.ghost{background:transparent;border-color:#34485c;color:var(--muted)}
+  h1,h2,h3,p{margin-top:0}
+  h1{font-size:clamp(29px,4vw,51px);letter-spacing:-.06em;line-height:1.05;margin-bottom:14px;font-weight:750;max-width:870px}
+  h2{font-size:19px;letter-spacing:-.02em;margin-bottom:13px}
+  h3{font-size:14px;margin-bottom:8px}
+  a{color:var(--cyan)}
+  .eyebrow{color:var(--cyan);font-size:11px;font-weight:760;letter-spacing:.17em;text-transform:uppercase}
+  .wrap{max-width:1490px;margin:auto;padding:0 22px}
+  header{padding:44px 0 20px}
+  header .intro{color:#afc0ce;max-width:820px;font-size:16px}
+  .topline{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:18px}
+  .status{display:flex;align-items:center;gap:8px;color:#b9d9ce;font-size:12px}
+  .dot{width:8px;height:8px;display:inline-block;border-radius:50%;background:#dbac6a;box-shadow:0 0 10px #cdad64}
+  .ready .dot{background:#77cfa4;box-shadow:0 0 10px #64cfa4}
+  .layout{display:grid;grid-template-columns:minmax(245px,285px) minmax(370px,1fr) minmax(270px,315px);gap:15px;align-items:stretch;margin-top:16px}
+  .panel{background:linear-gradient(140deg,rgba(18,38,54,.96),rgba(10,25,41,.97));border:1px solid var(--edge);border-radius:15px;padding:20px;min-width:0;box-shadow:0 15px 45px #0002}
+  .smallnote{color:var(--muted);font-size:12px}
+  .caption{font-size:11px;color:var(--muted);letter-spacing:.04em}
+  .rule{height:1px;background:var(--edge);margin:18px 0}
+  .controlrow{display:flex;gap:7px;flex-wrap:wrap;margin:10px 0}
+  .controlrow button{flex:1 1 auto}
+  .memory-item{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid #203346}
+  .memory-item:last-of-type{border:0}
+  .memory-item button{width:83px;padding:7px}
+  .memory-item .name{font-weight:650;font-size:14px}
+  .bit-index{display:block;color:var(--muted);font-weight:450;font-size:11px}
+  .memory-item button.on{color:#1a1510;background:var(--gold);border-color:var(--gold)}
+  .result-pill{font-size:13px;color:var(--gold);font-weight:700;padding:10px 12px;background:#49372342;border:1px solid #65513b;border-radius:9px;margin:12px 0}
+  #field{display:block;width:min(100%,540px);aspect-ratio:1;margin:0 auto;background:#08121d;border:1px solid #29455b;border-radius:12px}
+  .fieldbar{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+  .legend{display:flex;gap:13px;align-items:center;font-size:11px;color:var(--muted);flex-wrap:wrap}
+  .legend span:before{display:inline-block;content:'';width:9px;height:9px;border-radius:3px;background:var(--cyan);margin-right:6px}
+  .legend span.hot:before{background:var(--gold)}
+  .legend span.wall:before{background:#91d7bd}
+  .underfield{margin-top:12px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .caption-strong{font-size:12px;color:#c8e0eb;font-weight:650}
+  .prob{display:flex;align-items:center;gap:9px;padding:4px 0;font-size:12px}
+  .prob .code{font-family:ui-monospace,"Cascadia Code",monospace;color:#b3c5d3;width:40px;flex:none}
+  .track{flex:1;height:8px;background:#1f3448;border-radius:8px;overflow:hidden}
+  .track>div{background:linear-gradient(90deg,#326e83,#89cfe0);height:100%;min-width:0}
+  .prob.champion .code{color:#fff;font-weight:750}
+  .prob.champion .track>div{background:var(--gold)}
+  .prob .pct{text-align:right;min-width:46px;font-variant-numeric:tabular-nums;color:var(--muted)}
+  .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:14px}
+  .kpi{background:#091725;padding:12px;border-radius:8px;border:1px solid #254051}
+  .kpi strong{display:block;font-size:21px;font-variant-numeric:tabular-nums}
+  .kpi span{font-size:11px;color:var(--muted)}
+  .bottom{display:grid;grid-template-columns:minmax(360px,1.1fr) minmax(330px,1fr);gap:15px;margin:15px 0}
+  .sectionlabel{font-size:12px;color:var(--muted);font-weight:720;margin:12px 0 5px;letter-spacing:.04em;text-transform:uppercase}
+  .actions{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+  .actions button{min-width:0;padding:9px 5px;font-size:12px}
+  .actions button small{display:block;font-size:10px;color:#bed6e2;font-weight:450;margin-top:2px}
+  .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:10px 0}
+  .controls button{width:100%}
+  .row{display:flex;justify-content:space-between;align-items:center;gap:12px}
+  input[type=range]{accent-color:var(--cyan);width:100%;cursor:pointer}
+  #trace{width:100%;height:auto;background:#071522;border:1px solid #253c50;border-radius:10px;margin:12px 0}
+  select{color:var(--ink);background:#14263b;border:1px solid #486078;border-radius:7px;padding:7px 10px}
+  .table-wrap{overflow-x:auto}
+  table{border-collapse:collapse;width:100%;font-size:12px;margin:12px 0;font-variant-numeric:tabular-nums}
+  td,th{text-align:left;border-bottom:1px solid #284054;padding:9px 7px}
+  th{color:#a6bbcb;font-weight:650}
+  .methods{max-width:890px;margin:20px auto 60px}
+  .methods p{color:#9fb6c6;font-size:14px}
+  code{color:#e5bf8d}
+  .notebook{font-size:11px;background:#0a1726;padding:12px;border:1px solid #22394d;border-radius:9px;color:#b9c7d4;line-height:1.6}
+  .notebook strong{color:#eaf1f5}
+  .footer{margin:20px 0 50px;color:#7e9bae;font-size:12px}
+  @media(max-width:1150px){.layout{grid-template-columns:minmax(240px,1fr) minmax(350px,1.5fr)}.posterior{grid-column:1/-1}.posterior .probs{display:grid;grid-template-columns:repeat(2,1fr);column-gap:18px}.bottom{grid-template-columns:1fr}}
+  @media(max-width:700px){.wrap{padding:0 12px}.layout,.bottom{display:flex;flex-direction:column}.panel{padding:15px}.posterior .probs{display:block}header{padding-top:25px}.topline{align-items:flex-start;flex-direction:column}.actions{grid-template-columns:repeat(3,1fr)}}
+  @media(prefers-reduced-motion:reduce){button{transition:none}}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="topline"><div class="eyebrow">Perception Lab / physical memory · 01</div><div class="status" id="status"><span class="dot"></span><span id="statusText">Preparing 48 simulated echoes…</span></div></div>
+    <h1>Resonance is not memory.<br>It can be a way to <span style="color:var(--gold)">read memory.</span></h1>
+    <p class="intro">Write four persistent changes into the boundary of a reflecting ellipse. Let the wave die. Then choose where and when to send a fresh ping. The question is not which echo is strongest, but which ping best distinguishes the records.</p>
+  </header>
+
+  <main class="layout">
+    <aside class="panel">
+      <div class="eyebrow">01 / persistent medium</div>
+      <h2>Write the wall</h2>
+      <p class="smallnote">Four binary wall patches are mapped onto four of the eight ellipse sectors. They are <em>material parameters</em>, not amplitudes carried by the wave.</p>
+      <div id="wallBits"></div>
+      <div class="rule"></div>
+      <h3>Known / blind record</h3>
+      <div class="controlrow"><button id="newTrial">New blind record</button><button id="reveal" class="ghost">Reveal</button></div>
+      <p class="result-pill" id="recordStatus">Known wall: 0000</p>
+      <p class="smallnote">During a blind trial the entire wave field and wall colors are concealed. The inference algorithm receives only the <strong>one-cell receiver trace</strong> you request.</p>
+      <div class="notebook"><strong>What is assumed?</strong><div>Wall writing is external and permanent. This machine does not yet discover a plasticity rule. Its memory is read through classical linear waves and repeated scattering.</div></div>
+    </aside>
+
+    <section class="panel">
+      <div class="fieldbar"><div><div class="eyebrow">02 / physical cavity</div><h2 style="margin-bottom:0">Echo chamber</h2></div><div class="legend"><span>positive wave</span><span class="hot">negative wave</span><span class="wall">written sector</span></div></div>
+      <canvas id="field" width="576" height="576" aria-label="Finite-difference wave field in the elliptical cavity"></canvas>
+      <div class="underfield"><span id="fieldCaption" class="caption-strong">The field will animate after an observed ping.</span><span class="caption" id="frameStep">Wave step —</span></div>
+      <p class="smallnote">Display field = visual aid only. The reader does not get a full-field FFT, virtual directional camera, or access to the hidden wall. The actual sensor is the point at the opposite focus.</p>
+    </section>
+
+    <aside class="panel posterior">
+      <div class="eyebrow">03 / inverse listener</div>
+      <h2>Which record was written?</h2>
+      <p class="smallnote">Posterior probability over all 16 fully calibrated wall words. The listener begins with equal odds and updates only from observed noisy echo samples.</p>
+      <div class="probs" id="probs"></div>
+      <div class="kpis">
+        <div class="kpi"><strong id="confidence">6.3%</strong><span>Leading probability</span></div>
+        <div class="kpi"><strong id="uncertainty">4.00</strong><span>Entropy, bits</span></div>
+        <div class="kpi"><strong id="guess">0000</strong><span>Current best guess</span></div>
+        <div class="kpi"><strong id="shots">0</strong><span>Physical pings used</span></div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="bottom">
+    <section class="panel controls">
+      <div class="eyebrow">04 / choose the question</div>
+      <h2>Interrogation port</h2>
+      <p class="smallnote">Three physically different source positions; two listening windows of exactly 100 samples. Each observation costs one ping. The receiver stays at the opposite focus.</p>
+      <div class="sectionlabel">Source position</div>
+      <div class="actions" id="sourceButtons">
+        <button data-source="0">Focus<small>symmetry axis</small></button>
+        <button data-source="1">Right<small>+8 grid cells</small></button>
+        <button data-source="2">Left<small>−8 grid cells</small></button>
+      </div>
+      <div class="sectionlabel">Listening window (100 samples each)</div>
+      <div class="two" id="windowButtons"><button data-window="0">Early · 145–244</button><button data-window="1">Late · 245–344</button></div>
+      <div class="row"><label class="sectionlabel" for="noise">Noise / single-wall RMS</label><strong id="noiseLabel" style="color:var(--gold)">40%</strong></div>
+      <input id="noise" type="range" min="0.04" max="3" step="0.04" value="0.4" aria-label="Detector Gaussian noise as a fraction of single-wall RMS">
+      <div class="controlrow"><button id="suggest">Choose informative ping</button><button id="ping" class="primary" disabled>Send ping</button></div>
+      <div class="row"><span class="smallnote" id="suggestion">Calculating options…</span><span class="caption" id="sigmaDisplay">σ —</span></div>
+      <div class="rule"></div>
+      <div class="eyebrow">05 / receiver signal</div>
+      <h2 style="margin-top:6px">The returning trace</h2>
+      <canvas id="trace" width="740" height="255" aria-label="Noisy receiver trace versus current most likely candidate"></canvas>
+      <div class="legend"><span>measured signed pressure</span><span class="hot">best candidate's clean echo</span></div>
+      <div id="lastAction" class="smallnote" style="margin-top:10px">No ping yet. A resonance alone is not a decoded record.</div>
+    </section>
+
+    <section class="panel">
+      <div class="eyebrow">06 / a controlled contest</div>
+      <h2>Does questioning help?</h2>
+      <p class="smallnote">A seeded noisy recognition test. All methods get the same number of one-cell pings and the same dictionary of <strong>all sixteen</strong> clean echoes. This tests <em>probe selection</em>, not learning new wall combinations or reducing calibration cost.</p>
+      <div class="row"><label for="shotCount" class="sectionlabel">Ping budget</label><select id="shotCount"><option value="1">1 shot</option><option selected value="2">2 shots</option><option value="3">3 shots</option><option value="4">4 shots</option></select></div>
+      <div class="row"><label for="trialCount" class="sectionlabel">Noisy trials</label><select id="trialCount"><option value="64">64 trials</option><option selected value="128">128 trials</option><option value="256">256 trials</option></select></div>
+      <div style="margin-top:17px"><button id="benchmark" style="width:100%" disabled>Run equal-shot comparison</button></div>
+      <div id="benchResult" class="table-wrap"><p class="smallnote">Methods: adaptive posterior-weighted separation, fixed focus/late, cycling late sources, and uniformly random source/window.</p></div>
+      <div class="rule"></div>
+      <div class="notebook">
+        <strong>Falsification, not illustration</strong>
+        <div>If adaptive does not beat the strongest fixed or cycling strategy over many shared test words/noise seeds, the claim that active questioning helps in this setup fails. No invented accuracy figures are shown.</div>
+      </div>
+    </section>
+  </div>
+  <section class="panel methods">
+    <div class="eyebrow">Method ledger</div>
+    <h2>What the instrument establishes — and what it does not</h2>
+    <p><strong>Known mathematics:</strong> finite-difference damped scalar wave propagation on an ellipse, discrete Neumann reflections with binary Robin boundary springs, Bayesian Gaussian template discrimination, and adaptive measurement selection. For each fixed wall the wave evolution is linear; joint wall changes yield non-additive echoes through repeated scattering.</p>
+    <p><strong>Measured locally by this page:</strong> which of six real point-receiver interrogation actions separates sixteen pre-calibrated wall records under a chosen noise and shot budget. Adaptive choice uses the current posterior's expected pairwise waveform separation — a <em>heuristic</em>, not an optimal-information theorem.</p>
+    <p><strong>Not demonstrated:</strong> physical hardware, spontaneous memory writing, generalization to unseen wall combinations, an exponential calibration saving, or a consequence of the October 2026 OpenAI Euclidean local-smoothing theorem. The paper inspired questions about coherent observation, but its free-wave proof does not transfer to this bounded cavity.</p>
+    <div class="notebook"><strong>Research path:</strong> This is a new, deliberately small interrogation interface alongside <a href="https://github.com/anttiluode/Kavitaatio">Kavitaatio</a> and <a href="https://github.com/anttiluode/WallMemoryLaw">WallMemoryLaw</a>. The difficult next project is geometrically sparse calibration of more wall bits, not adding another virtual FFT filter.</div>
+  </section>
+  <footer class="footer">Resonance as a Controlled Method · Perception Lab · Open, reproducible numerical experiment · <a href="https://github.com/anttiluode/ResonanceAsControlledMethod">Source repository</a></footer>
+</div>
+<script src="core.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
