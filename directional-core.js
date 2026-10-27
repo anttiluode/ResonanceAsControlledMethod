@@ -203,10 +203,29 @@ function compare(oracle,opts={}){
       }
     }
     realErrors.sort((a,b)=>a-b);
+    // Full 256-word oracle diagnostic: closest distinct wall echo to each
+    // held-out echo.  NEVER used in fitting the sparse memory model.
+    const margins=[];
+    const allRef=[];
+    for(let candidate=0;candidate<WORDS;candidate++)
+      allRef.push(feature(oracle,arm,candidate,window,ids));
+    for(const word of unseen){
+      const target=allRef[word];let nearest=Infinity;
+      for(let opponent=0;opponent<WORDS;opponent++){
+        if(opponent===word)continue;
+        let sum=0;const alternative=allRef[opponent];
+        for(let t=0;t<DIM;t++){const d=target[t]-alternative[t];sum+=d*d;}
+        if(sum<nearest)nearest=sum;
+      }
+      // Noise-normalized per receiver sample, but not a decoding guarantee.
+      margins.push(Math.sqrt(nearest/DIM)/(sigma||1));
+    }
+    margins.sort((a,b)=>a-b);
     result.methods[arm]={exactNoiseless:exact,correct,total:unseen.length*trials,
       accuracy:correct/(unseen.length*trials),
       bitAccuracy:bitGood/(K*unseen.length*trials),
-      medianRelativeWaveError:realErrors[Math.floor(realErrors.length/2)]};
+      medianRelativeWaveError:realErrors[Math.floor(realErrors.length/2)],
+      fullOracleMedianNearestGapOverNoise:margins[Math.floor(margins.length/2)]};
     allHits[arm]=stochastic;
   }
   let parOnly=0,fixedOnly=0;
