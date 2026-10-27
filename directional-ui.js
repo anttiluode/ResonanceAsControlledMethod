@@ -10,6 +10,8 @@ function probes(){
   if(p==='low')return [0,1,2];
   if(p==='high')return [3,4,5];
   if(p==='direct')return [1,4];
+  if(p==='one-low')return [1];
+  if(p==='one-high')return [4];
   return [0,1,2,3,4,5];
 }
 function settings(){
