@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07101c"><meta name="description" content="Frozen independent cross-geometry validation of parabolic wave memory interrogation against a tuned fixed-angular-width baseline.">
+<title>Does the wave law travel? | Perception Lab</title>
+<style>
+:root{color-scheme:dark;--ink:#e6f4f9;--muted:#a5becc;--line:#2c485e;--dark:#081624;--panel:#102437;--cyan:#80d8ea;--gold:#edbe80;--green:#8ddbb9}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 28% 0,#204358,transparent 41%),#07101c;color:var(--ink);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+a{color:var(--cyan)}.wrap{max-width:1340px;margin:auto;padding:0 20px}
+nav{border-bottom:1px solid var(--line);padding:21px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;font-size:12px}
+nav strong{color:var(--cyan);letter-spacing:.14em}
+nav .links{display:flex;gap:16px;flex-wrap:wrap}
+header{padding:42px 0 16px}
+h1{font-size:clamp(31px,5vw,58px);letter-spacing:-.055em;line-height:1.08;max-width:1020px;margin:8px 0 17px}
+h2{font-size:20px;letter-spacing:-.02em;margin:0 0 10px}
+h3{font-size:16px;margin:0 0 10px}
+p{margin:0 0 12px}.lead{max-width:930px;color:#bed4df;font-size:16px}
+.eyebrow{font-weight:770;letter-spacing:.13em;font-size:11px;color:var(--cyan);text-transform:uppercase}
+.panel{border-radius:15px;border:1px solid var(--line);background:linear-gradient(145deg,#142f40e6,#0b1d30ef);padding:21px;box-shadow:0 14px 50px #0002}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:16px 0}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:16px 0}
+.kpi strong{display:block;font-size:27px;font-variant-numeric:tabular-nums}.kpi span{font-size:12px;color:var(--muted)}
+.shapegrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:18px 0}
+.shape{border-radius:12px;border:1px solid #38566a;padding:10px;background:#0a1c2b}
+.shape.selected{border-color:var(--gold);background:#182d3e}
+.shape canvas{height:auto;display:block;width:100%;max-height:185px}
+.shape .tag{font-size:11px;color:#a4bfcf}.shape strong{display:block}
+.badge{display:inline-block;border:1px solid #4d6b80;border-radius:7px;padding:5px 9px;color:#b4cad6;font-size:12px}
+.status{padding:12px 14px;border:1px solid #416077;border-radius:10px;background:#143046;color:#cee0e8;font-size:13px}
+table{border-collapse:collapse;width:100%;font-size:13px}td,th{text-align:left;padding:11px 9px;border-bottom:1px solid #315061;font-variant-numeric:tabular-nums}th{color:#b0c9d5;font-size:12px}
+.chart{display:block;width:100%;height:265px;border:1px solid #29485b;border-radius:10px;background:#081827}
+.metric-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.big{font-size:29px;font-weight:750;font-variant-numeric:tabular-nums}.small{color:var(--muted);font-size:12px}.accent{color:var(--gold)}
+.choice{background:#203a4f;color:var(--ink);border:1px solid #4d697a;border-radius:8px;padding:8px 13px;font:inherit;cursor:pointer}
+.choice.selected{background:#4b4034;border-color:var(--gold)}
+footer{margin:24px 0 60px;color:#829cab;font-size:12px}
+@media(max-width:850px){.grid,.kpis{grid-template-columns:1fr}.shapegrid{grid-template-columns:1fr 1fr}}
+@media(max-width:530px){.wrap{padding:0 12px}.shapegrid,.metric-grid{grid-template-columns:1fr}.panel{padding:15px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<nav><strong>PERCEPTION LAB · PHYSICAL MEMORY / 04</strong><div class="links"><a href="./">01 · Original reader</a><a href="geometry.html">02 · Geometry calibration</a><a href="directional.html">03 · Directional pings</a><a href="https://github.com/anttiluode/ResonanceAsControlledMethod">GitHub</a></div></nav>
+<header>
+<div class="eyebrow">The frozen-test chamber</div>
+<h1>Does the directional wave advantage <span class="accent">survive a new cavity?</span></h1>
+<p class="lead">The first directional experiment sometimes favored parabolic packets—but its fixed-angle control had an arbitrary width. This independent validation first gives that conventional control its best <em>single shared width</em> on the original ellipse, locks the choice, and then tests entirely different reflecting boundaries.</p>
+</header>
+<div class="panel">
+ <div class="eyebrow">01 / design frozen before seeing test results</div><h2>Three chambers. One chosen control.</h2>
+ <div class="shapegrid">
+  <div class="shape"><canvas id="original" width="300" height="195" aria-label="Original ellipse"></canvas><strong>Original ellipse</strong><div class="tag">36 × 27 grid-cell semiaxes · select fixed width here only</div></div>
+  <div class="shape"><canvas id="stadium" width="300" height="195" aria-label="Unseen stadium"></canvas><strong>Unseen stadium</strong><div class="tag">Straight center, semicircular caps · completely withheld from tuning</div></div>
+  <div class="shape"><canvas id="rotated" width="300" height="195" aria-label="Unseen rotated ellipse"></canvas><strong>Unseen rotated ellipse</strong><div class="tag">Original proportions, rotated +25° · no new parameter selection</div></div>
+ </div>
+ <div class="status" id="status">Retrieving the frozen numerical receipt from GitHub Pages…</div>
+ <p class="small" style="margin-top:12px"><a href="https://github.com/anttiluode/ResonanceAsControlledMethod/blob/main/CROSS_GEOMETRY_PROTOCOL.md">Read the locked protocol</a>. Both probes have wave numbers 0.65 and 1.30 rad/cell, aimed straight ahead. Exactly two pings per wall word, 100 receiver samples per ping; the eight wall bits and their material stiffness are unchanged.</p>
+</div>
+<div class="kpis">
+ <div class="panel kpi"><div class="eyebrow">Source-only optimized control</div><strong id="winner">—</strong><span>single fixed angular-width parameter q used at both wave frequencies</span></div>
+ <div class="panel kpi"><div class="eyebrow">Model calibration</div><strong>37 / 256</strong><span>empty wall + eight singles + 28 pairs, per directional design</span></div>
+ <div class="panel kpi"><div class="eyebrow">Unseen test workload</div><strong>219 × 3</strong><span>held-out eight-bit words × paired detector-noise draws, per cavity</span></div>
+</div>
+<div class="grid">
+ <section class="panel">
+  <div class="eyebrow">02 / tuning without test-cavity leakage</div>
+  <h2>Give the conventional beam a fair chance</h2>
+  <p class="small">Candidate fixed angular widths: 0.45, 0.65, 0.90, 1.30 and 1.80. All are compared only on the original ellipse using the locked noisy recognition score; ties choose the smallest width. Unlike the parabolic packet, one fixed beam width must serve both frequencies.</p>
+  <canvas id="tuning" class="chart" width="690" height="265" aria-label="Original ellipse tuning score for fixed angle widths"></canvas>
+  <p class="small">These source-ellipse tuning scores are *not independent test results*.</p>
+ </section>
+ <section class="panel">
+  <div class="eyebrow">03 / new geometries only</div>
+  <h2>Independent eight-bit decoding</h2>
+  <div class="tablewrap">
+   <table><thead><tr><th>Unseen cavity</th><th>Parabolic</th><th>Optimized fixed</th><th>Difference</th></tr></thead><tbody id="results"><tr><td colspan="4" class="small">Awaiting tested receipt</td></tr></tbody></table>
+  </div>
+  <p class="small">Exact eight-bit recognition under the same absolute Gaussian noise and source energy; a larger percentage is better. The decoder was trained only on the 37 allowed material states *within each new cavity*.</p>
+  <div class="status" id="outcome" style="margin-top:14px">The cross-geometry claim is not yet decided.</div>
+ </section>
+</div>
+<div class="grid">
+ <section class="panel">
+ <div class="eyebrow">04 / why earlier single-frequency results weren't decisive</div>
+ <h2>A necessary identity control</h2>
+ <p>For any one frequency <code>k</code>, the supposedly conventional fixed-width packet can be set to <code>q = k</code>. It then has <strong>exactly the same angular weights, launch state and receiver echo</strong> as the parabolic packet.</p>
+ <p class="small">The mathematical difference matters only when the source must act across multiple frequencies and is constrained to share one angular width. We test precisely that condition here, rather than claim a free-wave theorem proves memory reconstruction.</p>
+ <div id="identity" class="small">Independent single-frequency identity checks: pending receipt.</div>
+ </section>
+ <section class="panel">
+  <div class="eyebrow">05 / source, not theorem</div><h2>What failure would mean</h2>
+  <p>For this locked protocol, the parabolic design must outperform the optimized fixed-width control on <strong>both</strong> unfamiliar shapes to support the narrowly stated transfer hypothesis. A win on one and a loss on another means the claimed generalization fails.</p>
+  <p class="small">This is a numerical simulation of a damped Robin/Neumann cavity, not a formal consequence of OpenAI's free Euclidean local-smoothing result. Geometry-dependent hardware emission costs and independent physical verification remain open.</p>
+ </section>
+</div>
+<footer>Reproducible research, including negative results · <a href="https://github.com/anttiluode/ResonanceAsControlledMethod/blob/main/cross-geometry-benchmark.cjs">Numerical code</a> · <a href="https://github.com/anttiluode/ResonanceAsControlledMethod/actions/workflows/cross-geometry.yml">Test workflow</a></footer>
+</div>
+<script src="./cross-geometry-ui.js"></script>
+</body></html>
