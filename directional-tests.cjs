@@ -35,6 +35,18 @@ for(let i=0;i<refPacketPara.u.length;i++){
   near(refPacketPara.v[i],refPacketFixed.v[i],1e-12);
 }
 console.log('EXACT complex-ray angular weights, fixed-angle match at k0, equal discrete launch energy PASS');
+
+let maxWallEnergy=0;
+for(const arm of D.arms)for(const launch of D.initial[arm]){
+  let spring=0;
+  for(let i=0;i<R.inside.length;i++)
+    if(R.inside[i]&&R.counts[i])spring+=R.counts[i]*launch.u[i]*launch.u[i];
+  const extra=.5*R.C*R.C*.28*spring;
+  maxWallEnergy=Math.max(maxWallEnergy,extra);
+}
+console.log('Maximum wall-bit-dependent potential at injection (all sectors written):',maxWallEnergy.toExponential(5),'relative to E=1');
+assert.ok(maxWallEnergy<.02,'initial wave packet deposits too much energy directly into unknown Robin springs');
+
 for(const arm of D.arms)for(const word of [0,1,3,137]){
   const wave=D.simulate(word,arm,0);
   assert.equal(wave.length,200);
