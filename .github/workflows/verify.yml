@@ -20,3 +20,5 @@ jobs:
           node --check worker.js
           node --check app.js
           node tests.cjs
+          node --check geometry-core.js
+          node geometry-tests.cjs
