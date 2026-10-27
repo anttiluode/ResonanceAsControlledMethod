@@ -48,6 +48,21 @@ Every observation is independent Gaussian noise per sample (standard deviation =
 
 **Reading the result correctly:** adaptive should not be proclaimed better when strategies tie, when confidence is saturated at near-zero noise, or when a small advantage is within noise. The proper result is conditional on this geometry, four fixed wall cells, selected time windows, noise, pings and 16-word prior. Expand trials/seeds before claiming a robust advantage.
 
+## First numerical receipt (reproducible, not a general claim)
+
+GitHub Actions \`tests.cjs\`, seed 20261027, **128 paired trials**, two pings per trial, detector noise at **160%** of the single-wall reference RMS:
+
+| Selection policy | Exactly decoded words |
+|---|---:|
+| Adaptive posterior separation | 100/128 = **78.1%** |
+| Cycle across three late sources | 93/128 = **72.7%** |
+| Fixed focal source, late | 75/128 = **58.6%** |
+| Uniformly random action | 88/128 = **68.8%** |
+
+Exact two-sided paired-discordance tests, adaptive vs cycle **p = 0.349**; vs fixed **p = 0.00035**; vs random **p = 0.081**. These are exploratory tests of *this noise setting and these repeated trial words*, not pre-registered multiplicity-adjusted evidence for a generally superior interrogation policy. In particular **adaptive did not convincingly beat cycling or random choice**. At 40% noise, with 32 trials and two pings, adaptive, cycle and random all reached 32/32, demonstrating a low-noise performance ceiling.
+
+The page lets you repeat this with different noise and shot budgets, see failure cases, and update posteriors manually. The comparison equalizes receiver sample count and number of pings, but **does not charge additional elapsed time** for a late window. That is a separate resource still needing control.
+
 ## Mathematics
 
 For fixed wall word \(w\), the discretized wave update at an interior site is
