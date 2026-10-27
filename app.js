@@ -186,7 +186,7 @@ function runBenchmark(){
         const r=data.methods[key];
         table+='<tr><td>'+labels[key]+'</td><td>'+r.correct+'/'+trials+' ('+(100*r.accuracy).toFixed(1)+'%)</td><td>'+(100*r.bitAccuracy).toFixed(1)+'%</td></tr>';
       }
-      table+='</tbody></table><p class="smallnote">Chance for a uniformly guessed 4-bit record is 6.25%. '+shots+' pings per trial; same noise level and all-16-state oracle dictionary. Policy scores are based on a deterministic seeded simulation, not a physical experiment. Individual policies use independent detector noise.</p>';
+      table+='</tbody></table><p class="smallnote">Chance for a uniformly guessed 4-bit record is 6.25%. '+shots+' pings per trial; same noise level and all-16-state oracle dictionary. Policy scores are based on a deterministic seeded simulation, not a physical experiment. Policies use paired hidden words and Gaussian noise streams (same trial / shot / sample). This matches test difficulty, not waveform values across different actions.</p>';
       byId('benchResult').innerHTML=table;
     } catch(err){byId('benchResult').textContent=String(err);}
     benchmarkBusy=false;byId('benchmark').disabled=false;
