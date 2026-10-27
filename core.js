@@ -128,14 +128,15 @@
   function best(prior){return prior.indexOf(Math.max(...prior));}
   function entropy(prior){let e=0;for(const p of prior)if(p>0)e-=p*Math.log2(p);return e;}
   function benchmark(templates,sigma,trials,shots,seed){
-    const result={trials,shots,methods:{},randomChance:1/16};
-    // Paired benchmark: every policy sees the same test words AND the same
-    // Gaussian noise draws by trial / shot / sample, under each selected action.
+    const result={trials,shots,methods:{},paired:{},randomChance:1/16};
+    // Every policy sees the same test words and the same Gaussian noise
+    // draws (matched by trial / shot / sample) under its chosen action.
     const truthRng=seeded(seed);
     const truthWords=Array.from({length:trials},()=>Math.floor(truthRng()*16));
-    const policies=['adaptive','cycle','fixed','random'];
+    const policies=['adaptive','cycle','fixed','random'],success={};
     for(const policy of policies){
       let correct=0,bitHits=0;
+      success[policy]=[];
       for(let runIndex=0;runIndex<trials;runIndex++){
         const word=truthWords[runIndex];
         const noiseRng=seeded((seed ^ Math.imul(runIndex+1,0x9e3779b9))>>>0);
@@ -147,11 +148,25 @@
           const observation=observe(word,a,templates,sigma,noiseRng);
           prior=updated(prior,templates,a,observation,sigma);
         }
-        const estimate=best(prior);
-        if(estimate===word)correct++;
+        const estimate=best(prior),hit=estimate===word;
+        success[policy].push(hit);
+        if(hit)correct++;
         for(let b=0;b<4;b++)if(((estimate>>b)&1)===((word>>b)&1))bitHits++;
       }
       result.methods[policy]={correct,accuracy:correct/trials,bitAccuracy:bitHits/(4*trials)};
+    }
+    for(const other of ['cycle','fixed','random']){
+      let better=0,worse=0;
+      for(let i=0;i<trials;i++){
+        if(success.adaptive[i]&&!success[other][i])better++;
+        if(!success.adaptive[i]&&success[other][i])worse++;
+      }
+      // Two-sided exact paired sign / McNemar test on discordant trials.
+      const n=better+worse,limit=Math.min(better,worse);
+      let term=Math.pow(.5,n),tail=term;
+      for(let k=1;k<=limit;k++){term*=((n-k+1)/k);tail+=term;}
+      const p=Math.min(1,2*tail);
+      result.paired[other]={adaptiveOnly:better,otherOnly:worse,discordant:n,pTwoSided:p};
     }
     return result;
   }
