@@ -28,3 +28,7 @@ jobs:
           node directional-tests.cjs
           node --check directional-worker.js
           node --check directional-ui.js
+          node --check cross-geometry-benchmark.cjs
+          node cross-geometry-tests.cjs
+          node --check cross-geometry-ui.js
+          node cross-geometry-receipt-test.cjs
