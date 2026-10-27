@@ -129,16 +129,22 @@
   function entropy(prior){let e=0;for(const p of prior)if(p>0)e-=p*Math.log2(p);return e;}
   function benchmark(templates,sigma,trials,shots,seed){
     const result={trials,shots,methods:{},randomChance:1/16};
+    // Paired benchmark: every policy sees the same test words AND the same
+    // Gaussian noise draws by trial / shot / sample, under each selected action.
+    const truthRng=seeded(seed);
+    const truthWords=Array.from({length:trials},()=>Math.floor(truthRng()*16));
     const policies=['adaptive','cycle','fixed','random'];
-    for(let methodIndex=0;methodIndex<policies.length;methodIndex++){
-      const policy=policies[methodIndex];
+    for(const policy of policies){
       let correct=0,bitHits=0;
-      const rng=seeded((seed + 0x9e3779b9 * (methodIndex+1))>>>0);
       for(let runIndex=0;runIndex<trials;runIndex++){
-        const word=(rng()*16)|0;let prior=uniform();
+        const word=truthWords[runIndex];
+        const noiseRng=seeded((seed ^ Math.imul(runIndex+1,0x9e3779b9))>>>0);
+        const selectRng=seeded((seed ^ Math.imul(runIndex+1,0x85ebca6b) ^ 0xdeadbeef)>>>0);
+        let prior=uniform();
         for(let step=0;step<shots;step++){
-          let a=policy==='adaptive'?pick(prior,templates,sigma):policy==='fixed'?1:policy==='cycle'?2*(step%3)+1:((rng()*6)|0);
-          const observation=observe(word,a,templates,sigma,rng);
+          const a=policy==='adaptive'?pick(prior,templates,sigma):
+            policy==='fixed'?1:policy==='cycle'?2*(step%3)+1:Math.floor(selectRng()*6);
+          const observation=observe(word,a,templates,sigma,noiseRng);
           prior=updated(prior,templates,a,observation,sigma);
         }
         const estimate=best(prior);
