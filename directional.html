@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Physically inject energy-matched parabolic and fixed-angle wave packets into an eight-wall memory cavity, observe signed echoes, and score held-out memory reconstruction.">
+<meta name="theme-color" content="#07101c">
+<title>The Directional Interrogation Challenge · Perception Lab</title>
+<style>
+:root{color-scheme:dark;--bg:#07101c;--panel:#102337;--edge:#2d485c;--ink:#e8f4f9;--secondary:#9bb9ca;--cyan:#80d8e9;--gold:#eebc80;--green:#9bd2ad;--red:#ffaaa5}
+*{box-sizing:border-box}body{margin:0;color:var(--ink);background:radial-gradient(ellipse at 23% -6%,#1d3b4f,transparent 45%),radial-gradient(ellipse at 100% 12%,#222436,transparent 40%),var(--bg);font:15px/1.5 system-ui,-apple-system,'Segoe UI',sans-serif}
+a{color:var(--cyan)}a:hover{text-decoration-thickness:2px}
+.wrap{max-width:1410px;margin:auto;padding:0 23px}
+nav{padding:22px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;border-bottom:1px solid var(--edge);font-size:13px}
+nav strong{letter-spacing:.13em;color:var(--cyan);font-size:12px}
+nav .links{display:flex;gap:17px;flex-wrap:wrap}
+header{padding:41px 0 27px}
+.eyebrow{color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;font-weight:770;font-size:11px}
+h1,h2,h3,p{margin-top:0}
+h1{max-width:1000px;font-size:clamp(31px,4.5vw,57px);line-height:1.07;letter-spacing:-.054em;margin:12px 0 18px}
+h2{font-size:19px;letter-spacing:-.02em;margin:5px 0 11px}
+h3{font-size:14px;margin:12px 0 8px}
+.lead{max-width:970px;color:#c5d8e2;font-size:16px}
+.small{color:var(--secondary);font-size:12px}
+.panel{background:linear-gradient(136deg,rgba(17,42,57,.96),rgba(10,27,43,.95));border:1px solid var(--edge);border-radius:15px;box-shadow:0 14px 45px #0002;padding:21px;min-width:0}
+.first{display:grid;grid-template-columns:minmax(260px,320px) minmax(340px,1fr) minmax(270px,340px);gap:14px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+label{display:block;color:#bbd3de;font-weight:660;font-size:13px;margin:14px 0 7px}
+input,select,button{font:inherit}
+select{color:#f2f7f8;background:#1a3449;border:1px solid #5c7689;padding:10px 12px;border-radius:9px;width:100%}
+input[type=range]{width:100%;accent-color:var(--cyan)}
+button{color:var(--ink);background:#1b394d;border:1px solid #4c7287;border-radius:10px;font-weight:660;padding:12px 15px;cursor:pointer}
+button:hover:not(:disabled){background:#30536a}
+button:disabled{opacity:.42;cursor:not-allowed}
+button.primary{background:var(--gold);border-color:var(--gold);color:#13202b}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+.rule{height:1px;background:#29465b;margin:17px 0}
+canvas{width:100%;display:block;border-radius:10px;background:#081a29;border:1px solid #2a4859}
+#angular{height:220px}
+#packet{height:310px}
+.chart-title{color:#aac6d5;font-size:12px;margin:12px 0 8px;font-weight:650}
+.legend{display:flex;flex-wrap:wrap;gap:13px;font-size:12px;color:var(--secondary);margin:9px 0}
+.legend span:before{content:'';display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--cyan);margin-right:6px}
+.legend span.gold:before{background:var(--gold)}
+.legend span.green:before{background:var(--green)}
+.status{padding:10px 12px;background:#173244;border:1px solid #3e5868;border-radius:9px;font-size:12px;color:#c0d8e4;min-height:70px}
+.bar{height:8px;background:#304a5c;border-radius:10px;overflow:hidden;margin-top:9px}
+.bar>div{height:100%;background:linear-gradient(90deg,#367e92,var(--cyan));width:0}
+.big{font-size:23px;font-weight:760;font-variant-numeric:tabular-nums}
+.note{font-size:12px;color:#a7bbcb;line-height:1.55}
+.details{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:15px 0}
+.metric span{font-size:11px;color:#a9bfcd;display:block}
+.metric strong{font-size:25px;font-variant-numeric:tabular-nums}
+.second{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:15px 0}
+.method{padding:15px;border:1px solid #385e70;border-radius:11px;background:#10283c}
+.method.gold{border-color:#8f7759}
+.method strong{display:block;font-size:35px;font-weight:750;font-variant-numeric:tabular-nums}
+.method p{font-size:12px;color:#a9c2d0;margin:5px 0}
+.chartgrid{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin:15px 0}
+#trace{height:250px}
+#counts{height:250px}
+.tablewrap{overflow:auto}
+table{border-collapse:collapse;width:100%;font-size:12px}
+th,td{text-align:left;padding:10px 9px;border-bottom:1px solid #2d4a5c}
+th{color:#acc3d0}
+.research{max-width:1000px;margin:17px auto 70px}
+.research p{font-size:14px;color:#aac3d1}
+pre{white-space:pre-wrap;color:#e5c194;font-size:11px}
+fieldset{margin:0;padding:0;border:0}
+.comparison{display:inline-block;padding:8px 12px;color:var(--gold);background:#4d3b2542;border-radius:10px;font-size:13px}
+@media(max-width:1180px){.first{grid-template-columns:minmax(260px,1fr) minmax(310px,1.6fr)}.first>.panel:last-child{grid-column:1/-1}}
+@media(max-width:750px){.wrap{padding:0 12px}.first,.second,.details,.chartgrid{display:flex;flex-direction:column}.panel{padding:15px}.details .panel{width:100%}}
+</style>
+</head><body>
+<div class="wrap">
+<nav><strong>PERCEPTION LAB / PHYSICAL MEMORY · 03</strong><div class="links"><a href="./">01 · Live listener</a><a href="./geometry.html">02 · Causal calibration</a><a href="https://github.com/anttiluode/ResonanceAsControlledMethod">GitHub / source</a></div></nav>
+<header>
+ <div class="eyebrow">The OpenAI-paper bridge · a controlled source experiment</div>
+ <h1>Do parabolic wave packets <span style="color:var(--gold)">ask better questions?</span></h1>
+ <p class="lead">The October 25 wave manuscript uses an angular multiplier whose width decreases as frequency increases. Here that same law shapes a <strong>physically launched wave packet</strong>. Both source designs inject equal energy into the eight-wall ellipse, and a single receiver measures signed echoes. The crucial question: which packet better distinguishes <em>wall memories never used for calibration</em>?</p>
+</header>
+<div class="first">
+ <section class="panel">
+  <div class="eyebrow">01 / experimental controls</div><h2>Match the resources</h2>
+  <label for="window">Receiver listening window</label>
+  <select id="window"><option value="0">Early · steps 145–244</option><option value="1" selected>Late · steps 245–344</option></select>
+  <label for="order">Calibrated wall configurations</label>
+  <select id="order"><option value="2" selected>37 states · empty, singles, pairs</option><option value="3">93 states · through triples</option></select>
+  <label for="pings">Excitation budget per calibration state</label>
+  <select id="pings"><option value="all">6 pings · 2 frequencies × 3 bearings</option><option value="low">3 pings · low frequency only</option><option value="high">3 pings · high frequency only</option><option value="direct">2 pings · straight ahead</option></select>
+  <label for="noise">Noise / common single-wall RMS <span id="noiseDisplay" style="color:var(--gold)">4%</span></label>
+  <input type="range" min="0" max=".35" step=".01" value=".04" id="noise">
+  <div class="row" style="margin-top:12px"><button class="primary" id="run" disabled>Score both arms</button><button id="resetView" disabled>Default controls</button></div>
+  <div class="rule"></div>
+  <div id="status" class="status">Building 3,072 source-to-receiver wave simulations…<div class="bar"><div id="progress"></div></div></div>
+  <p class="note" style="margin-top:13px">The complete 256-state simulation is a scoring oracle only. The trained reader sees <strong>37 or 93 calibration states</strong>, identically chosen for both source arms. The oracle stays inside a worker.</p>
+ </section>
+ <section class="panel">
+  <div class="eyebrow">02 / the source, not the listener</div><h2>Two ways to steer a wave</h2>
+  <div class="row"><label for="frequency" style="margin:4px 0">Inspect angular spectrum</label><select id="frequency" style="max-width:185px"><option value="0">Low k = 0.65</option><option value="1">High k = 1.30</option></select></div>
+  <div class="row"><label for="bearing" style="margin:8px 0">Beam direction</label><select id="bearing" style="max-width:185px"><option value="0">−60°</option><option selected value="1">0° (toward receiver)</option><option value="2">+60°</option></select></div>
+  <canvas id="angular" width="720" height="260" aria-label="Comparison of normalized angular weights for parabolic and fixed reference width"></canvas>
+  <div class="legend"><span>Paper-inspired parabolic</span><span class="gold">Fixed-angle control</span></div>
+  <p class="small">Both use Gaussian angular weights. Parabolic: <code>exp[−ρ k(1−cos Δθ)]</code>. Fixed: replace k with reference k₀=0.9. They are identical at k=k₀, but not at these two test frequencies.</p>
+ </section>
+ <section class="panel">
+  <div class="eyebrow">03 / physically propagated fields</div><h2>What actually travels?</h2>
+  <canvas id="packet" width="480" height="480" aria-label="Comparison of two actual simulated fields 46 wave time steps after physical launch"></canvas>
+  <div class="legend"><span>Positive displacement</span><span class="gold">Negative displacement</span></div>
+  <p class="small">Snapshot at step 45 through a blank cavity, with the selected physical packet. This is for visualization only. <strong>The memory decoder receives no field snapshots or FFT features.</strong></p>
+  <p class="small" id="launchInfo">Both injected wave energies are normalized to E = 1.</p>
+ </section>
+</div>
+<div class="details">
+ <div class="panel metric"><div class="eyebrow">Calibrated states</div><strong id="calibration">—</strong><span>per arm, from 256 possible wall words</span></div>
+ <div class="panel metric"><div class="eyebrow">Physical calibration pings</div><strong id="shots">—</strong><span>states × directed beams, per arm</span></div>
+ <div class="panel metric"><div class="eyebrow">Truly unseen wall words</div><strong id="heldout">—</strong><span>same records scored for both arms</span></div>
+</div>
+<section class="panel">
+ <div class="row"><div><div class="eyebrow">04 / held-out eight-bit reconstruction</div><h2>Does either interrogation source win?</h2></div><span id="conclusion" class="comparison">Full experiment still running</span></div>
+ <div class="second">
+  <div class="method"><div class="eyebrow">Parabolic angular law</div><strong id="parAcc">—</strong><p>Correct 8-bit memories at common noise, never included in calibration.</p><div id="parDetails" class="small"></div></div>
+  <div class="method gold"><div class="eyebrow">Fixed-angle control</div><strong id="fixAcc">—</strong><p>Same injected energy, frequency, steering, number of pings, receiver and decoder.</p><div id="fixDetails" class="small"></div></div>
+ </div>
+ <p id="paired" class="note">Each held-out record will be scored at matched noise. This compares source shaping, not a new local-smoothing theorem.</p>
+</section>
+<div class="chartgrid">
+ <section class="panel"><div class="eyebrow">05 / information in the measured channel</div><h2>Ideal dictionary separation</h2><canvas id="counts" width="720" height="280" aria-label="Full-oracle smallest-response-gap diagnostic in common noise units"></canvas><p class="small">Median nearest distinct wall-response distance divided by detector noise RMS, calculated from the entire independent oracle. <strong>This is an ideal upper-bound diagnostic, not an affordable memory decoder.</strong></p></section>
+ <section class="panel"><div class="eyebrow">06 / prediction errors</div><h2>A memory the model never saw</h2><div class="row" style="margin-bottom:9px"><label for="inspectWord" style="margin:0">Unseen 8-bit word</label><input type="number" id="inspectWord" min="0" max="255" value="255" style="width:76px;border:1px solid #496779;border-radius:8px;background:#1c3c52;padding:6px;color:#fff"><label for="traceProbe" style="margin:0">Ping</label><select id="traceProbe" style="max-width:180px"></select></div><button id="inspect" disabled>Inspect held-out waveform</button><canvas id="trace" width="720" height="280" style="margin-top:11px" aria-label="Signed receiver waveform versus low-order predicted waveform"></canvas><div class="legend"><span>True receiver</span><span class="gold">Predicted by sparse calibration</span></div><div id="inspection" class="small">The listener only measures one receiver trace per injected packet.</div></section>
+</div>
+<section class="panel research">
+ <div class="eyebrow">Falsification ledger</div><h2>What OpenAI's paper does—and doesn't—give us</h2>
+ <p>In the October 25 OpenAI <a href="https://github.com/openai/math/blob/main/preprints/Local-smoothing-for-the-Euclidean-wave-equation-October-25-2026/paper.pdf">Euclidean-wave manuscript</a>, imaginary translation of a free positive half-wave supplies a directional multiplier <code>exp[−ρk(1−cos θ)]</code>. Our source synthesizes a coherent angular superposition using those weights, then propagates a <em>real, approximately forward-moving Gaussian packet</em> through a bounded, damped Neumann/Robin cavity. This is an engineering analogy, **not** the actual complex-time evolution or a theorem inherited by the cavity.</p>
+ <p>Both arms use 48 angular components, equal spatial packet width, the same wave numbers (0.65 and 1.30 rad/cell), three directions (−60°, 0°, +60°), equal discrete kinetic-plus-gradient source energy E = 1, same 96×96 cavity and one receiver, same 100-sample windows, one ping per selected packet, the same sparse calibration states and common Gaussian detector noise. A narrower lobe by itself is not a discovery.</p>
+ <p><strong>Success requires</strong> reproducible gains in separating the 219 (pair calibration) or 163 (triple calibration) unseen wall records relative to the fixed-angle control, not just larger echo amplitude. A tie or loss is a genuine rejection for these parameters. The full dictionary diagnostic is explicitly separated from the restricted-calibration score. Independent cavities, calibrated noisy training, matched elapsed waiting time and hardware validation remain outside this experiment.</p>
+</section>
+</div>
+<script src="./core.js"></script><script src="./geometry-core.js"></script><script src="./directional-core.js"></script><script src="./directional-ui.js"></script>
+</body></html>
