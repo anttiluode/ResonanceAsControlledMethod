@@ -3,6 +3,8 @@
  * wall configurations.  Run: node directional-receipt.cjs
  */
 'use strict';
+require('./core.js');
+require('./geometry-core.js');
 const D=require('./directional-core.js');
 const started=Date.now(),truth=D.makeOracle((arm,done,total)=>{
   if(done===1||done%64===0)console.log('Oracle simulation progress',arm,done+'/'+total);
