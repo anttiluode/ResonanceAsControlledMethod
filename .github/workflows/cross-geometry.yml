@@ -1,0 +1,33 @@
+name: Frozen independent-geometry directional validation
+on:
+  push:
+    paths:
+      - cross-geometry-benchmark.cjs
+      - cross-geometry-tests.cjs
+      - CROSS_GEOMETRY_PROTOCOL.md
+      - .github/workflows/cross-geometry.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  frozen-comparison:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check frozen protocol invariants
+        run: |
+          node --check cross-geometry-benchmark.cjs
+          node cross-geometry-tests.cjs
+      - name: Tune only original ellipse, then validate on unseen shapes
+        run: node cross-geometry-benchmark.cjs
+      - name: Keep full machine-readable receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-geometry-validation-receipt
+          path: cross-geometry-results.json
+          if-no-files-found: warn
