@@ -42,7 +42,7 @@ function updateControls(){
 }
 function resetControls(){
   $('window').value='1';$('order').value='2';$('pings').value='all';
-  $('noise').value='.04';$('inspectWord').value='255';
+  $('noise').value='2';$('inspectWord').value='255';
   $('frequency').value='0';$('bearing').value='1';
   updateControls();drawPacket();
 }
