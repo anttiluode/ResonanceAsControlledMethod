@@ -22,3 +22,5 @@ jobs:
           node tests.cjs
           node --check geometry-core.js
           node geometry-tests.cjs
+          node --check geometry-worker.js
+          node --check geometry-ui.js
