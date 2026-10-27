@@ -24,3 +24,5 @@ jobs:
           node geometry-tests.cjs
           node --check geometry-worker.js
           node --check geometry-ui.js
+          node --check directional-core.js
+          node directional-tests.cjs
