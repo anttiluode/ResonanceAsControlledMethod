@@ -6,6 +6,18 @@ Live static laboratory: **https://anttiluode.github.io/ResonanceAsControlledMeth
 
 This is a small experimental instrument building on [Kavitaatio](https://github.com/anttiluode/Kavitaatio), [WallMemoryLaw](https://github.com/anttiluode/WallMemoryLaw), the broader wave-cavity and neural-ping explorations, and the October 2026 wave-analysis discussion. It is *not* a demonstration of learning neurons, a new theorem, or a solver for OpenAI's local-smoothing result.
 
+## New: the physical directional interrogation challenge (October 27, 2026)
+
+**[Open the parabolic-vs-fixed wave laboratory](https://anttiluode.github.io/ResonanceAsControlledMethod/directional.html)** · [Detailed numerical receipt, limitations and reproduction](DIRECTIONAL_FINDINGS.md).
+
+This is the direct engineering test connecting the October 25 OpenAI wave paper to eight-bit wall memory: instead of filtering a computed field after receiving it, **physically launch** coherent wave packets with the paper's frequency-dependent angular multiplier. Compare conventional fixed-angular-width packets at identical initial energy, packet frequencies, bearings, one-point receiver, listening window, observation budget and low-order calibration cost.
+
+**First decisive controls:** both arms decode all 219 unseen wall words at ordinary 4% noise using 37 calibration states and six pings. **No advantage there.** In exploratory stress conditions, the result depends on frequency: with one physical straight-ahead low-frequency ping and 200% detector noise, parabolic scores **500/657 (76.1%)** against fixed-angle **455/657 (69.3%)**; with a high-frequency ping the sign flips, **113/657 (17.2%)** vs **135/657 (20.5%)**. These are repeated noise draws over 219 wall words in one synthetic cavity, not independently validated discovery claims. The formal wave theorem does not extend automatically to this reflecting and damped medium.
+
+The browser lets you vary stress noise and physical pings. A 3,072-simulation reference benchmark with reproducible source physics is available in GitHub Actions and \`directional-receipt.cjs\`.
+
+---
+
 ## New: eight-bit causal calibration laboratory (October 27, 2026)
 
 **[Open the 8-bit experiment](https://anttiluode.github.io/ResonanceAsControlledMethod/geometry.html).** The [original four-bit live interrogation page](https://anttiluode.github.io/ResonanceAsControlledMethod/) remains intact.
