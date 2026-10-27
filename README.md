@@ -25,7 +25,7 @@ The interactive site contains a deterministic 96×96 wave solver, the same refer
 | Simulation | 350 updates; full-wave field is a visualization only |
 | Measured windows | early: steps 145–244; late: 245–344, 100 signed samples each |
 
-We pre-calibrate **all 16 wall words** from **three physical sources**. Six actions = three source positions × two disjoint 100-sample windows; each action uses one physical excitation, one fixed receiving cell, and a selected observation deadline/window. The listener never gets the full wave field as data. An unobserved waveform from the simulation is used solely as a candidate template.
+We pre-calibrate **all 16 wall words** from **three physical sources**. Six actions = three source positions × two disjoint 100-sample windows; each action uses one physical excitation, one fixed receiving cell, and a selected observation deadline/window. The six actions have equal trace/sample budgets, but **not equal elapsed listening time**. Later observations cost a longer wait, and the demonstration deliberately discards samples outside the selected window. The listener never gets the full wave field as data. An unobserved waveform from the simulation is used solely as a candidate template.
 
 This experiment intentionally **does not** claim efficient calibration: preparing its full dictionary requires 16 × 3 = 48 forward simulations. It does not predict wall combinations absent from calibration.
 
