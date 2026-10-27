@@ -1,0 +1,201 @@
+{
+  "winner": 0.45,
+  "sigma": 0.015866461573009864,
+  "heldout": {
+    "stadium": {
+      "insideCells": 3264,
+      "wallSectorFaceCounts": [
+        29,
+        34,
+        34,
+        29,
+        29,
+        34,
+        34,
+        29
+      ],
+      "sourceInside": true,
+      "receiverInside": true,
+      "launchEnergy": {
+        "parabolic": [
+          1.0000000000000009,
+          0.9999999999999964
+        ],
+        "fixed": [
+          0.9999999999999998,
+          0.9999999999999989
+        ]
+      },
+      "maxRobinInjectionEnergy": {
+        "parabolic": 0.000012802796832998305,
+        "fixed": 0.00001263309326174615
+      },
+      "parabolic": {
+        "correct": 336,
+        "total": 657,
+        "accuracy": 0.5114155251141552,
+        "bitAccuracy": 0.9126712328767124,
+        "noiseless": 179,
+        "heldout": 219,
+        "medianRelativeWaveError": 0.023651430328694184
+      },
+      "fixed": {
+        "correct": 465,
+        "total": 657,
+        "accuracy": 0.7077625570776256,
+        "bitAccuracy": 0.9507229832572298,
+        "noiseless": 187,
+        "heldout": 219,
+        "medianRelativeWaveError": 0.03061314602431625
+      },
+      "paired": {
+        "parabolicOnly": 8,
+        "fixedOnly": 137,
+        "discordant": 145
+      },
+      "frequencyControls": {
+        "low": {
+          "parabolic": {
+            "correct": 321,
+            "total": 657,
+            "accuracy": 0.4885844748858447,
+            "bitAccuracy": 0.9060121765601218,
+            "noiseless": 181,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.0256392631585811
+          },
+          "fixed": {
+            "correct": 436,
+            "total": 657,
+            "accuracy": 0.6636225266362252,
+            "bitAccuracy": 0.9394977168949772,
+            "noiseless": 185,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.03355971893236461
+          }
+        },
+        "high": {
+          "parabolic": {
+            "correct": 99,
+            "total": 657,
+            "accuracy": 0.1506849315068493,
+            "bitAccuracy": 0.797945205479452,
+            "noiseless": 132,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.015146877486501535
+          },
+          "fixed": {
+            "correct": 166,
+            "total": 657,
+            "accuracy": 0.2526636225266362,
+            "bitAccuracy": 0.84779299847793,
+            "noiseless": 175,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.014825719287023923
+          }
+        }
+      }
+    },
+    "rotated": {
+      "insideCells": 3050,
+      "wallSectorFaceCounts": [
+        29,
+        37,
+        33,
+        29,
+        29,
+        37,
+        33,
+        29
+      ],
+      "sourceInside": true,
+      "receiverInside": true,
+      "launchEnergy": {
+        "parabolic": [
+          0.9999999999999993,
+          0.9999999999999998
+        ],
+        "fixed": [
+          0.9999999999999973,
+          0.9999999999999983
+        ]
+      },
+      "maxRobinInjectionEnergy": {
+        "parabolic": 0.0005278987759990191,
+        "fixed": 0.00046258841646174074
+      },
+      "parabolic": {
+        "correct": 228,
+        "total": 657,
+        "accuracy": 0.3470319634703196,
+        "bitAccuracy": 0.865296803652968,
+        "noiseless": 89,
+        "heldout": 219,
+        "medianRelativeWaveError": 0.24883038960485807
+      },
+      "fixed": {
+        "correct": 277,
+        "total": 657,
+        "accuracy": 0.4216133942161339,
+        "bitAccuracy": 0.88603500761035,
+        "noiseless": 99,
+        "heldout": 219,
+        "medianRelativeWaveError": 0.23575956151313357
+      },
+      "paired": {
+        "parabolicOnly": 9,
+        "fixedOnly": 58,
+        "discordant": 67
+      },
+      "frequencyControls": {
+        "low": {
+          "parabolic": {
+            "correct": 209,
+            "total": 657,
+            "accuracy": 0.3181126331811263,
+            "bitAccuracy": 0.841324200913242,
+            "noiseless": 81,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.26777618327694036
+          },
+          "fixed": {
+            "correct": 245,
+            "total": 657,
+            "accuracy": 0.3729071537290715,
+            "bitAccuracy": 0.8529299847792998,
+            "noiseless": 93,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.2459929948641086
+          }
+        },
+        "high": {
+          "parabolic": {
+            "correct": 72,
+            "total": 657,
+            "accuracy": 0.1095890410958904,
+            "bitAccuracy": 0.7718797564687976,
+            "noiseless": 56,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.15437863294436602
+          },
+          "fixed": {
+            "correct": 151,
+            "total": 657,
+            "accuracy": 0.2298325722983257,
+            "bitAccuracy": 0.8384703196347032,
+            "noiseless": 90,
+            "heldout": 219,
+            "medianRelativeWaveError": 0.15305064537330193
+          }
+        }
+      }
+    }
+  },
+  "successCriterion": false,
+  "elapsedSeconds": 61.079,
+  "provenance": {
+    "github_workflow_run": "https://github.com/anttiluode/ResonanceAsControlledMethod/actions/runs/40486229919",
+    "committed_frozen_protocol": "CROSS_GEOMETRY_PROTOCOL.md",
+    "comparisons": "Original ellipse tuning only; unseen stadium + rotated tests"
+  }
+}
