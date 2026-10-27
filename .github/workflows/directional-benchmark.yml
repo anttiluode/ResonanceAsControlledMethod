@@ -1,0 +1,18 @@
+name: Reproduce full eight-bit directional benchmark
+on:
+  push:
+    paths:
+      - directional-receipt.cjs
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  physical-packets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - run: node directional-receipt.cjs
