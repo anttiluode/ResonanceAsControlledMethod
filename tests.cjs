@@ -96,4 +96,6 @@ console.log(JSON.stringify({noise_sigma:ref*.4,shots:2,trials:32,methods:one.met
 const stress=C.benchmark(library,ref*1.6,128,2,20261027);
 console.log('CHALLENGING NOISE CONTROL: 160% of single-wall RMS, 128 paired trials, two pings');
 console.log(JSON.stringify(stress.methods,null,2));
+for(const compared of Object.values(stress.paired))assert.ok(compared.pTwoSided>=0&&compared.pTwoSided<=1);
+console.log('Exact paired-discordance test:',JSON.stringify(stress.paired,null,2));
 
